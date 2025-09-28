@@ -86,9 +86,30 @@ btn_eq.grid(row=4, column=2, padx=5, pady=5)
 
 # Clear ve Backspace
 btn_clear = tk.Button(root, text="C", width=5, height=2, command=on_clear)
-btn_clear.grid(row=5, column=0, padx=5, pady=5)
+btn_clear.grid(row=5, column=2, padx=5, pady=5)
 btn_back = tk.Button(root, text="⌫", width=5, height=2, command=on_backspace)
-btn_back.grid(row=5, column=1, padx=5, pady=5)
+btn_back.grid(row=5, column=3, padx=5, pady=5)
+
+#Parantezler
+btn_parantl = tk.Button(root, text="(", width=5, height=2, command=lambda: on_click("("))
+btn_parantl.grid(row=5, column=0, padx=5, pady=5)
+btn_parantr = tk.Button(root, text=")", width=5, height=2, command=lambda: on_click(")"))
+btn_parantr.grid(row=5, column=1, padx=5, pady=5)
+
+#Klavye kısayolları
+root.bind("<Return>", lambda event: on_equals())
+root.bind("<BackSpace>", lambda event: on_backspace())
+root.bind("<Escape>", lambda event: on_clear())
+
+#Rakamlar ve operatörler için klavye kısayolları
+def on_key(event):
+    ch=event.char
+    if ch in "0123456789.+-*/()":
+        on_click(ch)
+
+# Pencere açılınca imleci entry’ye odakla
+entry.focus_set()
+
 
 # Pencereyi çalıştır
 root.mainloop()
