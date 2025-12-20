@@ -38,6 +38,13 @@ def on_equals():
         entry.delete(0, tk.END)
         entry.insert(0, "Error")
 
+def on_key(event):
+    ch = event.char
+    if ch in "0123456789.+-*/()":
+        on_click(ch)
+        return "break"  # Entry'nin kendi yazmasını engelle
+
+
 # --- Butonlar ---
 
 # 1, 2, 3
@@ -97,15 +104,30 @@ btn_parantr = tk.Button(root, text=")", width=5, height=2, command=lambda: on_cl
 btn_parantr.grid(row=5, column=1, padx=5, pady=5)
 
 #Klavye kısayolları
-root.bind("<Return>", lambda event: on_equals())
-root.bind("<BackSpace>", lambda event: on_backspace())
-root.bind("<Escape>", lambda event: on_clear())
-
-#Rakamlar ve operatörler için klavye kısayolları
-def on_key(event):
-    ch=event.char
+def handle_keys(event):
+    ch = event.char
     if ch in "0123456789.+-*/()":
         on_click(ch)
+        return "break"  # Entry'nin kendi yazmasını engelle
+def handle_equals(event):
+    on_equals()
+    return "break"
+
+def handle_backspace(event):
+    on_backspace()
+    return "break"
+
+def handle_clear(event):
+    on_clear()
+    return "break"
+
+#entry.bind("<KeyPress>", handle_keys)
+entry.bind("<Return>", handle_equals)
+entry.bind("<KP_Enter>", handle_equals)   # Numpad Enter
+entry.bind("<BackSpace>", handle_backspace)
+entry.bind("<Escape>", handle_clear)
+
+
 
 # Pencere açılınca imleci entry’ye odakla
 entry.focus_set()
